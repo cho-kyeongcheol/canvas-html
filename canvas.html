@@ -1,0 +1,224 @@
+<style>
+  .imgbutton {
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .blur {
+    filter: blur(4px);
+  }
+
+  .texttest1 {
+    text-align: justify;
+  }
+
+  .texttest2 {
+    text-align: left;
+  }
+
+  .texttest3 {
+    text-align: start;
+  }
+
+  .texttest4 {
+    text-align: center;
+  }
+
+  .myCanvas {
+    width: 100%;
+    text-align: center;
+  }
+</style>
+
+<div class="texttest1">
+  안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요. justify
+</div> <br>
+<div class="texttest2">
+  안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요. left
+</div> <br>
+<div class="texttest3">
+  안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요. start
+</div> <br>
+<div class="texttest4">
+  안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요. center
+</div> <br>
+<div>
+  안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요. x
+</div> <br>
+
+<form id="form">
+  <input type="text" placeholder="text input">
+  <input type="password" placeholder="password">
+</form>
+
+<div id=topText>좀 더 주도적으로 사람들을 의식하지 말고 내가 하고 싶었던 것들을 하세요. 지금은 관계가 좁고 삼각형 같아서 마음을 많이 찌르겠지만, 팔각형보다 원에 더 가깝잖아요?</div>
+<div class=botText id=botText>[죽고 싶지만 떡볶이는 먹고 싶어] 중에서</div>
+
+<img class="blur" id="screen" src="main2.jpg" width="500" height="400">
+<button id="imgbutton" class="imgbutton" onclick="generateimg()">generateimg</button>
+<br>
+<button id="imgbutton2" class="imgbutton" onclick="generateimg2()">generateimg2</button>
+<br>
+<!-- <a id="imgbutton2" class="imgbutton" onclick="generateimg2()" >generateimg2</a> -->
+<!-- <canvas id="tutorial" width="3000" height="3000" style="border:solid 1px #ff0000"></canvas> -->
+<canvas class="myCanvas" id="myCanvas" width="3000" height="3000" style="border:solid 1px #ff0000"></canvas>
+<div id="task">소설 읽기</div>
+
+<div id=test1>좀 더 주도적으로 사람들을 의식하지 말고 내가 하고 싶었던 것들을 하세요. test1 </div>
+<div id=test2>좀 더 주도적으로 사람들을 의식하지 말고 내가 하고 싶었던 것들을 하세요. test2</div>
+
+<div class="wrap">
+  <canvas class="canvas blur"></canvas>
+</div>
+
+<button class="button" id="open">Open</button>
+<hr />
+<label for="blur_val">blur radius: </label>
+<input class="para_input" type="number" value=6 min=1 id="blur_val" />
+<button class="button" id="g_blur">G Blur</button>
+<label for="blur_val_m">m blur scale: </label>
+<input class="para_input" type="number" value=1 min=0 id="blur_val_m" />
+<button class="button" id="m_blur">M Blur</button>
+<hr />
+<button class="button" id="recover">Recover</button>
+
+
+<script>
+  var canvas = document.getElementById('myCanvas');
+  var ctx = canvas.getContext('2d');
+  var maxWidth = 2700; //2700
+  var lineHeight = 150; //25 -> 150
+  var center = canvas.width / 2;
+  var dynamic_x = 1500;
+  var x = (canvas.width - maxWidth) / 2;
+  var y = 1330;
+
+  var text1 = document.getElementById('topText').innerText;
+  var text2 = document.getElementById('botText').innerText;
+  var test1 = document.getElementById('test1').innerText;
+  var test2 = document.getElementById('test2').innerText;
+
+
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {   
+
+    console.log('text = ', text)
+
+    var words = text.split(''); // 한 단어씩 split 처리, list
+
+    console.log('words = ', words)
+
+    var line = '';
+
+    for (var n = 0; n < words.length; n++) {
+
+      var testLine = line + words[n] + '';
+      var metrics = ctx.measureText(testLine);
+      var testWidth = metrics.width;
+
+      // console.log('testLine = ', testLine)
+      // // console.log('metrics = ', metrics)
+      // console.log('testWidth = ', testWidth)
+      // console.log('maxWidth = ', maxWidth)
+
+      // maxWidth = 2500
+      if (testWidth > maxWidth) {
+
+        console.log('line = ', line)
+        console.log('x = ', x)
+        console.log('y = ', y)
+        // canvas.style.letterSpacing =  '30px';
+        ctx.fillText(line, x, y); // 실제로 쓰는 부분
+        console.log("canvas.style.letterSpacing line ; " + canvas.style.letterSpacing)
+
+        line = words[n] + '';
+        y += lineHeight;
+      }
+      else {
+        // console.log('else line = ', line)
+        line = testLine;
+      }
+      
+    }
+    // console.log("line1 : " + line[0])
+    //   console.log("line2 : " + line[1])
+    //   console.log("line3 : " + line[2])
+    //   console.log("line : " + line)
+      
+    
+
+    // canvas.style.letterSpacing =  '20px';
+    ctx.fillText(line, dynamic_x, y);  //두번째줄 위치 변경 
+    console.log("canvas.style.letterSpacing 3줄 ; " + canvas.style.letterSpacing)
+    // canvas.style.letterSpacing =  '10px';
+    
+    ctx.font = 'bold 45pt 궁서';
+    ctx.fillText(text2, dynamic_x, y + 250,); // 세번째줄 ([]중에서)   
+    console.log("canvas.style.letterSpacing []중에서 ; " + canvas.style.letterSpacing)
+    
+  }
+
+  function generateimg() {
+
+    var img = new Image();
+    var img2 = new Image();
+    var img3 = new Image();
+
+    img.onload = function () {
+      ctx.filter = 'blur(15px)';
+      ctx.drawImage(img, 0, 0, 3000, 3000);
+      ctx.filter = 'none';
+      img2.src = 'logo.png';
+    }
+
+    img2.onload = function () {
+      ctx.drawImage(img2, 120, 120, 450, 250);
+      img3.src = 'logo.png';      
+    }
+
+    img3.onload = function () {
+      ctx.drawImage(img3, canvas.width / 2 - 300, canvas.height / 2 - 400, 600, 200);
+      ctx.fillStyle = 'white';
+      ctx.textAlign = "center";
+      ctx.font = 'bold 60pt 궁서';
+
+      
+
+      // canvas.style.letterSpacing =  '20px';
+      wrapText(ctx, text1, 1500, canvas.height / 2, 2700, lineHeight); //첫째 줄
+      console.log("canvas.style.letterSpacing wraptext ; " + canvas.style.letterSpacing)
+      
+      
+      canvas.style.letterSpacing =  '20px';
+      ctx.fillText(text1, 1500, 600); // 실제로 쓰는 부분
+      console.log("canvas.style.letterSpacing filletext1 ; " + canvas.style.letterSpacing)
+
+      canvas.style.letterSpacing =  '20px';
+      ctx.fillText(text2, 1500, 800); // 실제로 쓰는 부분
+      console.log("canvas.style.letterSpacing filltext2 ; " + canvas.style.letterSpacing)
+
+
+
+      var space = ctx.measureText(' ');
+      console.log("space size : " + space.width);
+   
+     ctx.lineWidth = "6";
+     ctx.strokeStyle = "blue";
+     ctx.rect(150, y+66, maxWidth, y-600);
+     console.log("y = " + y)
+     ctx.stroke();
+
+    }
+    img.src = './main2.jpg';
+
+    
+  }
+</script>

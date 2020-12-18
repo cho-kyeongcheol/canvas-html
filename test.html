@@ -1,0 +1,61 @@
+<style>
+    canvas { background:white }
+canvas, label { display:block; width:400px; margin:0.5em auto }
+
+</style>
+
+<canvas class="myCanvas" id="myCanvas" width="500" height="500" style="border:solid 1px #ff0000"></canvas>
+
+<button id="imgbutton" class="imgbutton" onclick="generateimg()">generateimg</button>
+
+
+<canvas></canvas>
+<label>hello spacing: <input type="range" min="-20" max="40" value="1" step="0.1"></label>
+<label>world spacing: <input type="range" min="-20" max="40" value="1" step="0.1"></label>
+
+
+
+<script>
+// var inp = document.querySelectorAll('input'),
+var can = document.querySelector('canvas'),
+ctx = can.getContext('2d');
+
+
+// can.width = can.offsetWidth;
+
+// [].forEach.call(inp,function(inp){ inp.addEventListener('input', redraw, false) });
+redraw();
+
+function redraw(){
+
+//   ctx.clearRect(0,0,can.width,can.height);
+
+	can.style.letterSpacing =  '50px';
+	// ctx = can.getContext('2d');
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+	ctx.font = '4em sans-serif';
+	ctx.fillText('Hello', can.width/2, can.height*1/4);
+  
+  
+  
+    can.style.letterSpacing = '20px';
+
+	// ctx = can.getContext('2d');
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+	ctx.font = '4em sans-serif';
+  ctx.fillText('World', can.width/2, can.height*3/4);
+}
+
+
+
+
+function generateimg() {
+
+
+
+}
+
+
+</script>
